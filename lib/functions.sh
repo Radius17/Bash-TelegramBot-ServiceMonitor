@@ -26,9 +26,11 @@ function send_message {
 }
 function send_message_4_all {
   for chat_id in $(cat ./services/common-recipients.txt); do
-#    echo
+    echo "Checking recipient: $chat_id"
     f_letter=${chat_id:0:1}
     if [[ "$f_letter" != "#" ]]; then
+      echo "Sending to recipient: $chat_id"
+#      curl -s -X POST --connect-timeout 10 $TG_API_URL -d chat_id=$chat_id -d parse_mode="Markdown" -d text="$1"
       curl -s -X POST --connect-timeout 10 $TG_API_URL -d chat_id=$chat_id -d parse_mode="Markdown" -d text="$1" > /dev/null
     fi
   done
